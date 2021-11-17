@@ -26,12 +26,12 @@ public class Controller {
 	
 	@Autowired
 	MailService service;
-	private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
+
 	
 	@PostMapping("/generateOTP")
 	public ResponseEntity<Email> generateOTP(@RequestBody EmailUser email)
 	{
-		LOGGER.info("An INFO Message");
+
 		Email eml = service.generateOTP(email);
 		return new ResponseEntity<Email>(eml, HttpStatus.CREATED);
 	}

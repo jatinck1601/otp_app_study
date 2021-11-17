@@ -34,29 +34,8 @@ public class MailServiceImpl implements MailService{
 	        String regex = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w{2,}([-.]\\w+)*$";
 	        Pattern pattern = Pattern.compile(regex);
 	            Matcher matcher = pattern.matcher(email);
-	            return matcher.matches();
-	       
+	            return matcher.matches();      
 	        }
-	public String sendOTP(EmailUser eml){
-		// TODO Auto-generated method stub
-		int otp=100000+(new Random().nextInt(900000));
-		Email em=new Email(eml.getUserID(), eml.getUserOrderId(), eml.getUserEmail());
-		em.setOtp(otp);
-		repo.save(em);
-		Email otpFind=repo.findById(eml.getUserID()).get();
-		emailService.sendOtpMail(eml.getUserEmail(),"Your OTP is", em.getOtp());
-		Timer t = new Timer();  
-		TimerTask tt = new TimerTask()  {  
-		    @Override  
-		    public void run() { 
-		        otpFind.setOtp(0);
-		        repo.save(otpFind);
-		    };  
-		};  
-		t.schedule(tt, time); 			
-		return "Successfully Sent";
-		
-	}
 
 	@Override
 	public Email generateOTP(EmailUser eml){
@@ -121,6 +100,13 @@ public class MailServiceImpl implements MailService{
 			throw new InvalidOTPException("Invalid OTP");
 		}
 	}
+	public int createOtp()
+	{
+		return (100000+(new Random().nextInt(900000)));
+		
+	}
+	
+	
 
 
 
